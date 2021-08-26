@@ -1,17 +1,20 @@
-from unit_data_api import *
-from Unit import Unit
+import graph_analyzer
+from units_controller import *
+from data_structures.unit import Unit
 from simulation import Simulation
 
 if __name__ == '__main__':
-    unit_data = UnitData()
-    unit_1 = Unit(1, "a", 1, (0, 0), [(3, 3), (2, 2), (3, 3)])
-    unit_2 = Unit(2, "b", 2, (0, 0), [(3, 3), (2, 2), (3, 3)])
-    unit_3 = Unit(3, "c", 3, (0, 0), [(3, 3), (2, 2), (3, 3)])
-    unit_data.add_unit(unit_1)
-    unit_data.add_unit(unit_2)
-    unit_data.add_unit(unit_3)
-    unit_data.save_data()
+    units_controller = UnitsController()
+    unit_1 = Unit(1, "a", "a", (0, 0), [(1, 1), (3, 3), (5, 5)])
+    unit_2 = Unit(2, "b", "b", (0, 0), [(1, 1), (3, 3), (5, 5)])
+    unit_3 = Unit(3, "c", "c", (0, 0), [(10, 10), (20, 20), (30, 30)])
+    units_controller.add_unit(unit_1)
+    units_controller.add_unit(unit_2)
+    units_controller.add_unit(unit_3)
+    units_controller.save_data()
 
-    simulation = Simulation(unit_data)
-    simulation.run_simulation(0.01, .05)
+    simulation = Simulation(units_controller)
+    positions_history = simulation.run_simulation(1, 10)
     simulation.save_data()
+
+    graph_analyzer.run_graph_analysis(positions_history, units_controller)
