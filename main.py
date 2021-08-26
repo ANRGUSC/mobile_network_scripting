@@ -5,9 +5,9 @@ from simulation import Simulation
 
 if __name__ == '__main__':
     units_controller = UnitsController()
-    unit_1 = Unit(1, "a", "a", (0, 0), [(1, 1), (3, 3), (5, 5)])
-    unit_2 = Unit(2, "b", "b", (0, 0), [(1, 1), (3, 3), (5, 5)])
-    unit_3 = Unit(3, "c", "c", (0, 0), [(10, 10), (20, 20), (30, 30)])
+    unit_1 = Unit(1, "a", "a", False, False, True, (0, 0), [(1, 1), (3, 3), (5, 5)])
+    unit_2 = Unit(2, "b", "b", False, False, True, (0, 0), [(1, 1), (3, 3), (5, 5)])
+    unit_3 = Unit(3, "c", "c", False, False, True, (0, 0), [(10, 10), (20, 20), (30, 30)])
     units_controller.add_unit(unit_1)
     units_controller.add_unit(unit_2)
     units_controller.add_unit(unit_3)

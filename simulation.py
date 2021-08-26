@@ -2,19 +2,17 @@ import copy
 import json
 import math
 from pathlib import Path
+from util.file_operations import create_blank_file
 
 
 class Simulation:
     units_controller = {}
     simulation_data = {}
+    simulation_file = None
 
     def __init__(self, units_controller):
         self.units_controller = units_controller
-        unit_file = Path("generated_data/simulation.json")
-        if unit_file.is_file() is False:
-            with open("generated_data/simulation.json", "w") as outfile:
-                template = {}
-                json.dump(template, outfile)
+        self.simulation_file = create_blank_file("generated_data", "simulation.json")
 
     def save_data(self):
         with open("generated_data/simulation.json", "w") as outfile:
