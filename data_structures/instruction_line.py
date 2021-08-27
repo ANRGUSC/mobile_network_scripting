@@ -1,5 +1,6 @@
 import re
 
+
 class InstructionLine:
     def __init__(self, line):
         line = line.strip().replace(" ", "")
@@ -12,5 +13,3 @@ class InstructionLine:
 
         parameters = split[-1]
         self.param_list = parameters.split(",") if parameters else []
-
-
