@@ -1,3 +1,6 @@
+set_time("duration", 5)
+set_time("step", 1)
+
 p = create_units("pedestrian", "type_a", 1)
 u = create_units("UAV", "type_b", 1)
 v = create_units("vehicle", "type_c", 2)
@@ -6,5 +9,6 @@ group_1 = create_group(p, c)
 
 home = create_position((15, 25))
 set_starting_position(p, home)
+set_waypoints(p, [(0,0), (10,10)])
 
 create_cellular_region([(0,0), (10,0), (20,10), (10,30), (0,30)])
