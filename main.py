@@ -40,7 +40,7 @@ if __name__ == '__main__':
             function_name = instruction_line.function_name
             param_list = instruction_line.param_list
 
-            print(initialized_variable, function_name, param_list)
+            print(initialized_variable, function_name, param_list, flush=True)
 
             if function_name == "create_units":
                 unit_name = param_list[0]
