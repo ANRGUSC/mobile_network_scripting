@@ -1,11 +1,11 @@
 {
-  "a": {
+  "type_a": {
     "speed": 0.5
   },
-  "b": {
+  "type_b": {
     "speed": 1.0
   },
-  "c": {
+  "type_c": {
     "speed": 1.5
   },
   "default": {
