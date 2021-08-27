@@ -1,0 +1,5 @@
+p = create_units("pedestrian", "type_a", 1)
+u = create_units("UAV", "type_b", 1)
+v = create_units("vehicle", "type_c", 2)
+c = create_units("compute", "type_a", 3)
+group_1 = create_group(p, c)

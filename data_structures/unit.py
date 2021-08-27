@@ -1,7 +1,6 @@
-from enum import Enum
-
 class Unit:
-    def __init__(self, key, name, unit_type, has_standard_radio, has_cellular_radio, has_satellite_link, starting_position, waypoints):
+    def __init__(self, key, name, unit_type, starting_position=(0, 0), waypoints=[], has_standard_radio=False,
+                 has_cellular_radio=False, has_satellite_link=False):
         self.key = key
         self.name = name
         self.unit_type = unit_type
@@ -13,3 +12,8 @@ class Unit:
 
     def encode(self):
         return self.__dict__
+
+    def set_equipment(self, unit, has_standard_radio, has_cellular_radio, has_satellite_link):
+        self.units_data[unit.key].has_standard_radio = has_standard_radio
+        self.units_data[unit.key].has_cellular_radio = has_cellular_radio
+        self.units_data[unit.key].has_satellite_link = has_satellite_link

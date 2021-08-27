@@ -1,12 +1,12 @@
 {
   "type_a": {
-    "speed": 0.5
+    "speed": 1.0
   },
   "type_b": {
     "speed": 1.0
   },
   "type_c": {
-    "speed": 1.5
+    "speed": 1.0
   },
   "default": {
     "speed": 1.0
