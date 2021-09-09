@@ -1,3 +1,5 @@
+load_map("input_data/map.json")
+
 set_attribute("time_duration", 10)
 set_attribute("time_step", 1)
 

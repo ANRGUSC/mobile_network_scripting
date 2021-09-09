@@ -44,8 +44,9 @@ class Simulation:
     simulation_data = {}
     simulation_file = None
 
-    def __init__(self, units_controller):
+    def __init__(self, units_controller, map_controller):
         self.units_controller = units_controller
+        self.map_controller = map_controller
         self.simulation_file = create_blank_file("generated_data", "simulation.json")
 
     def save_data(self):
@@ -87,8 +88,8 @@ class Simulation:
                 waypoints_timeline = waypoints_timelines[unit_key]
                 if len(waypoints_timeline) >= 1 and waypoints_timeline[0]["start_time"] <= current_time:
                     waypoints_to_follow = waypoints_timeline[0]["waypoints"]
-                    current_paths[unit_key] = waypoints_to_follow
                     unit_to_end_time[unit_key] = waypoints_timeline[0]["end_time"]
+                    current_paths[unit_key] = self.map_controller.convert_waypoints_to_path(waypoints_to_follow)
                     waypoints_timeline.pop(0)
                 if unit_to_end_time[unit_key] <= current_time:
                     current_paths[unit_key] = []

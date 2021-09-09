@@ -16,8 +16,9 @@ class InstructionsParser:
     time_duration = None
     time_step = None
 
-    def __init__(self, units_controller, global_attributes):
+    def __init__(self, units_controller, map_controller, global_attributes):
         self.units_controller = units_controller
+        self.map_controller = map_controller
         self.global_attributes = global_attributes
 
     def handle_function(self, initialized_variable, function_name, param_list):
@@ -71,6 +72,9 @@ class InstructionsParser:
                     "start_time": start_time,
                     "end_time": end_time
                 })
+        elif function_name == "load_map":
+            file_name = param_list[0]
+            self.map_controller.load_map(file_name)
 
     def parse_file(self, file_name):
         with open(file_name) as instructions_file:

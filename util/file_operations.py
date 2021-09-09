@@ -12,6 +12,6 @@ def create_blank_file(directory, file_name):
             json.dump(template, outfile)
 
 
-def load_json_from_file(directory, file_name):
-    with open(directory + "/" + file_name) as json_file:
+def load_json_from_file(file_name):
+    with open(file_name) as json_file:
         return json.load(json_file)

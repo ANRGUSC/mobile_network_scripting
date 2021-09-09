@@ -14,7 +14,7 @@ class UnitsController:
     groups = {}
 
     def __init__(self):
-        self.unit_types_data = load_json_from_file("input_data", "unit_types.json")
+        self.unit_types_data = load_json_from_file("input_data/unit_types.json")
         create_blank_file("generated_data", "units.json")
 
     def get_next_unit_key(self):
