@@ -66,3 +66,7 @@ class UnitsController:
         group = Group(self.get_next_group_key(), units)
         self.groups[group.key] = group
         return group
+
+    def initialize_units(self):
+        for key, value in self.units_data.items():
+            value.initialize()
