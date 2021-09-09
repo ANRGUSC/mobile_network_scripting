@@ -9,11 +9,16 @@ class Unit:
         self.has_satellite_link = has_satellite_link
         self.starting_position = starting_position
         self.waypoints = waypoints
+        self.waypoints_timeline = []
 
     def encode(self):
         return self.__dict__
 
     def set_equipment(self, unit, has_standard_radio, has_cellular_radio, has_satellite_link):
-        self.units_data[unit.key].has_standard_radio = has_standard_radio
-        self.units_data[unit.key].has_cellular_radio = has_cellular_radio
-        self.units_data[unit.key].has_satellite_link = has_satellite_link
+        self.has_standard_radio = has_standard_radio
+        self.has_cellular_radio = has_cellular_radio
+        self.has_satellite_link = has_satellite_link
+
+    def initialize(self):
+        self.waypoints_timeline.sort(key=lambda x: x["start_time"])
+        print(self.waypoints_timeline)
