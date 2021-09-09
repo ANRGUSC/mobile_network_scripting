@@ -40,6 +40,12 @@ class UnitsController:
             waypoints[key] = value.waypoints
         return waypoints
 
+    def get_waypoints_timelines(self):
+        waypoints_timelines = {}
+        for key, value in self.units_data.items():
+            waypoints_timelines[key] = value.waypoints_timeline
+        return waypoints_timelines
+
     def save_data(self):
         with open("generated_data/units.json", "w") as outfile:
             combined_data = {
@@ -70,3 +76,6 @@ class UnitsController:
     def initialize_units(self):
         for key, value in self.units_data.items():
             value.initialize()
+
+    def get_unit_keys(self):
+        return list(self.units_data.keys())

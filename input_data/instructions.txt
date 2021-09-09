@@ -9,7 +9,7 @@ group_1 = create_group(p, c)
 
 home = (15, 25)
 set_starting_position(p, home)
-set_waypoints(v, [(20,20), (50,50)], 10, 50)
-set_waypoints(v, [(0,0), (10,10)], 5)
+set_waypoints(v, [(20,20), (50,50)], 7, 9)
+set_waypoints(v, [(0,0), (10,0)], 0, 4)
 
 create_cellular_region([(0,0), (10,0), (20,10), (10,30), (0,30)])

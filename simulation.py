@@ -57,7 +57,7 @@ class Simulation:
 
     def move_given_path(self, unit_key, current_coord, current_path, time_step):
         if len(current_path) == 0:
-            return
+            return current_coord
         destination_coord = current_path[0]
         coord_change_direction = calculate_coord_change_direction(time_step, current_coord, destination_coord)
         coord_change_scaled = ([self.units_controller.get_speed(unit_key) * value for value in coord_change_direction])
@@ -67,8 +67,14 @@ class Simulation:
         return new_coord
 
     def run_simulation(self, time_step, time_limit):
-        current_paths = self.calculate_paths()
         current_positions = self.units_controller.get_starting_positions()
+        waypoints_timelines = self.units_controller.get_waypoints_timelines()
+        unit_to_end_time = {}
+        current_paths = {}
+        for unit_key in self.units_controller.get_unit_keys():
+            unit_to_end_time[unit_key] = math.inf
+            current_paths[unit_key] = []
+
         current_time = 0
         positions_history = []
         self.simulation_data["metadata"] = {
@@ -78,6 +84,14 @@ class Simulation:
         self.simulation_data["positions"] = []
         while current_time <= time_limit:
             for unit_key, current_coord in current_positions.items():
+                waypoints_timeline = waypoints_timelines[unit_key]
+                if len(waypoints_timeline) >= 1 and waypoints_timeline[0]["start_time"] <= current_time:
+                    waypoints_to_follow = waypoints_timeline[0]["waypoints"]
+                    current_paths[unit_key] = waypoints_to_follow
+                    unit_to_end_time[unit_key] = waypoints_timeline[0]["end_time"]
+                    waypoints_timeline.pop(0)
+                if unit_to_end_time[unit_key] <= current_time:
+                    current_paths[unit_key] = []
                 new_coord = self.move_given_path(unit_key, current_coord, current_paths[unit_key], time_step)
                 current_positions[unit_key] = new_coord
             current_time += time_step

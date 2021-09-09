@@ -40,36 +40,7 @@
                 0
             ],
             "waypoints": [],
-            "waypoints_timeline": [
-                {
-                    "waypoints": [
-                        [
-                            0.0,
-                            0.0
-                        ],
-                        [
-                            10.0,
-                            10.0
-                        ]
-                    ],
-                    "start_time": 5,
-                    "end_time": Infinity
-                },
-                {
-                    "waypoints": [
-                        [
-                            20.0,
-                            20.0
-                        ],
-                        [
-                            50.0,
-                            50.0
-                        ]
-                    ],
-                    "start_time": 10,
-                    "end_time": 50
-                }
-            ]
+            "waypoints_timeline": []
         },
         "unit_4": {
             "key": "unit_4",
@@ -83,36 +54,7 @@
                 0
             ],
             "waypoints": [],
-            "waypoints_timeline": [
-                {
-                    "waypoints": [
-                        [
-                            0.0,
-                            0.0
-                        ],
-                        [
-                            10.0,
-                            10.0
-                        ]
-                    ],
-                    "start_time": 5,
-                    "end_time": Infinity
-                },
-                {
-                    "waypoints": [
-                        [
-                            20.0,
-                            20.0
-                        ],
-                        [
-                            50.0,
-                            50.0
-                        ]
-                    ],
-                    "start_time": 10,
-                    "end_time": 50
-                }
-            ]
+            "waypoints_timeline": []
         },
         "unit_5": {
             "key": "unit_5",
