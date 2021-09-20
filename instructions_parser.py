@@ -10,10 +10,8 @@ from util.file_operations import create_blank_file
 
 
 class InstructionsParser:
-    instruction_var = {}
-    cellular_zones = []
-
-    def __init__(self, units_controller, map_controller, global_attributes, delayed_instructions):
+    def __init__(self, instruction_var, units_controller, map_controller, global_attributes, delayed_instructions):
+        self.instruction_var = instruction_var
         self.units_controller = units_controller
         self.map_controller = map_controller
         self.global_attributes = global_attributes
