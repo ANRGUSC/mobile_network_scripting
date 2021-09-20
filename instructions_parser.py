@@ -19,6 +19,12 @@ class InstructionsParser:
         self.global_attributes = global_attributes
         self.delayed_instructions = delayed_instructions
 
+    def convert_unit_list_to_key_list(self, unit_list):
+        unit_keys = []
+        for unit in unit_list:
+            unit_keys.append(unit.key)
+        return unit_keys
+
     def handle_function(self, initialized_variable, function_name, param_list):
         if function_name == "create_units":
             unit_name = param_list[0]
@@ -77,6 +83,14 @@ class InstructionsParser:
             units_list = param_list[0]
             time = param_list[1]
             self.delayed_instructions.add_stop_movement(units_list, time)
+        elif function_name == "change_equipment_at_time":
+            units_list = param_list[0]
+            time = float(param_list[1])
+            turn_on = param_list[2]
+            equipment_name = param_list[3]
+            self.delayed_instructions.add_change_equipment(self.convert_unit_list_to_key_list(units_list), 
+                    time, turn_on, equipment_name=="standard_radio", 
+                    equipment_name=="cellular_radio", equipment_name=="satellite_link")
 
 
     def parse_file(self, file_name):
@@ -91,7 +105,7 @@ class InstructionsParser:
                 rhs_value = instruction_line.rhs_value
 
                 # delete
-                #print(initialized_variable, function_name, param_list, file=self.output_file)
+                print(initialized_variable, function_name, param_list)
                 # delete
 
                 if function_name is not None:

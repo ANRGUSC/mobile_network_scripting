@@ -46,29 +46,42 @@ def create_standard_radio_edges(graph, standard_radio_radius):
                 graph.add_edge(current_node_key, next_node_key)
 
 
-def run_graph_analysis(positions_history, units_controller, map_controller, standard_radio_radius):
+def run_graph_analysis(positions_history, units_controller, map_controller, global_attributes, delayed_instructions):
     create_blank_file("generated_data", "networks.json")
-    graph_template = nx.Graph()
-    units_data = units_controller.get_units_data()
-    for key, value in units_data.items():
-        graph_template.add_node(key, has_standard_radio=value.has_standard_radio,
+    graph = nx.Graph()
+    for key, value in units_controller.get_units_data().items():
+        graph.add_node(key, has_standard_radio=value.has_standard_radio,
                                 has_cellular_radio=value.has_cellular_radio,
                                 has_satellite_link=value.has_satellite_link)
-    create_satellite_edges(graph_template)
-
+    
     networks_data = []
+    current_time = 0
     for time_frame in positions_history:
-        graph = graph_template.copy()
+        graph = nx.create_empty_copy(graph)
 
         for key, value in time_frame.items():
             graph.nodes[key]["coord"] = value
 
+        while delayed_instructions.get_change_equip_time() <= current_time:
+            instruct = delayed_instructions.get_change_equip_instruct()
+            delayed_instructions.pop_change_equip_instruct()
+            for unit_key in instruct.key_list:
+                if instruct.modify_standard_radio:
+                    graph.nodes[unit_key]["has_standard_radio"] = instruct.turn_on
+                if instruct.modify_standard_radio:
+                    graph.nodes[unit_key]["has_cellular_radio"] = instruct.turn_on
+                if instruct.modify_cellular_radio:
+                    graph.nodes[unit_key]["has_satellite_link"] = instruct.turn_on
+
+        create_satellite_edges(graph)
         create_cellular_radio_edges(graph, map_controller.get_cellular_zones())
-        create_standard_radio_edges(graph, standard_radio_radius)
+        create_standard_radio_edges(graph, global_attributes.standard_radio_radius)
 
         # Print serializable graph data
         graph_data = json_graph.node_link_data(graph)
         networks_data.append(json.dumps(graph_data))
+
+        current_time += global_attributes.time_step
     return networks_data
 
 

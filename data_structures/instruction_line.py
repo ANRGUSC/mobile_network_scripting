@@ -47,6 +47,10 @@ def convert_string_list_to_types(string_list, var_to_position):
 def convert_string_to_type(string, var_to_position):
     if string in var_to_position:
         return var_to_position[string]
+    elif string == "True":
+        return True
+    elif string == "False":
+        return False
     elif begins_and_ends_with(string, '\"', '\"'):
         return remove_quotes(string)
     elif begins_and_ends_with(string, '(', ')'):
