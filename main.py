@@ -10,7 +10,9 @@ from program_state import ProgramState
 
 if __name__ == '__main__':
     program_state = ProgramState()
-    program_state.parse_file("input_data/instructions.txt")
+    program_state.load_data_files("input_data/unit_types.json")
+    program_state.parse_instruction_file("input_data/instructions.txt")
+    program_state.save_state("program_states/state.txt")
     
     global_attributes = program_state.global_attributes
     units_controller = program_state.units_controller

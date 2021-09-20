@@ -15,7 +15,10 @@ class ProgramState:
         self.instructions_parser = InstructionsParser(self.instruction_var, self.units_controller, 
                 self.map_controller, self.global_attributes, self.delayed_instructions)
 
-    def parse_file(self, file_name):
+    def load_data_files(self, unit_types_file):
+        self.units_controller.load_data_files(unit_types_file)
+
+    def parse_instruction_file(self, file_name):
         self.instructions_parser.parse_file(file_name)
 
     def save_state(self, file_name):
