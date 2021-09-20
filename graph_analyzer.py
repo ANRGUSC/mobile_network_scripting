@@ -46,7 +46,7 @@ def create_standard_radio_edges(graph, standard_radio_radius):
                 graph.add_edge(current_node_key, next_node_key)
 
 
-def run_graph_analysis(positions_history, units_controller, cellular_zones, standard_radio_radius):
+def run_graph_analysis(positions_history, units_controller, map_controller, standard_radio_radius):
     create_blank_file("generated_data", "networks.json")
     graph_template = nx.Graph()
     units_data = units_controller.get_units_data()
@@ -63,7 +63,7 @@ def run_graph_analysis(positions_history, units_controller, cellular_zones, stan
         for key, value in time_frame.items():
             graph.nodes[key]["coord"] = value
 
-        create_cellular_radio_edges(graph, cellular_zones)
+        create_cellular_radio_edges(graph, map_controller.get_cellular_zones())
         create_standard_radio_edges(graph, standard_radio_radius)
 
         # Print serializable graph data

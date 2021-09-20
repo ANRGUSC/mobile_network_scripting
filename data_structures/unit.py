@@ -21,4 +21,3 @@ class Unit:
 
     def initialize(self):
         self.waypoints_timeline.sort(key=lambda x: x["start_time"])
-        print(self.waypoints_timeline)

@@ -42,12 +42,12 @@ def calculate_coord_change_direction(time_step, current_coord, destination_coord
 class Simulation:
     units_controller = {}
     simulation_data = {}
-    simulation_file = None
 
-    def __init__(self, units_controller, map_controller):
+    def __init__(self, units_controller, map_controller, delayed_instructions):
         self.units_controller = units_controller
         self.map_controller = map_controller
-        self.simulation_file = create_blank_file("generated_data", "simulation.json")
+        self.delayed_instructions = delayed_instructions
+        create_blank_file("generated_data", "simulation.json")
 
     def save_data(self):
         with open("generated_data/simulation.json", "w") as outfile:
@@ -91,6 +91,9 @@ class Simulation:
                     unit_to_end_time[unit_key] = waypoints_timeline[0]["end_time"]
                     current_paths[unit_key] = self.map_controller.convert_waypoints_to_path(waypoints_to_follow)
                     waypoints_timeline.pop(0)
+                if self.delayed_instructions.get_stop_movement_time(unit_key) <= current_time:
+                    current_paths[unit_key] = []
+                    self.delayed_instructions.remove_stop_movement_time(unit_key)
                 if unit_to_end_time[unit_key] <= current_time:
                     current_paths[unit_key] = []
                 new_coord = self.move_given_path(unit_key, current_coord, current_paths[unit_key], time_step)

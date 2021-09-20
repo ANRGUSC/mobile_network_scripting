@@ -13,5 +13,7 @@ home = (15, 25)
 set_starting_position(p, home)
 set_waypoints(v, [(20,20), (50,50)], 7, 9)
 set_waypoints(v, [(0,0), (10,0)], 0, 4)
+stop_movement(v, 3)
+stop_movement(v, 1)
 
 create_cellular_region([(0,0), (10,0), (20,10), (10,30), (0,30)])
