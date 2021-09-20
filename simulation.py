@@ -49,7 +49,7 @@ class Simulation:
         self.delayed_instructions = delayed_instructions
         create_blank_file("generated_data", "simulation.json")
 
-    def save_data(self):
+    def save_generated_data(self):
         with open("generated_data/simulation.json", "w") as outfile:
             json.dump(self.simulation_data, outfile, default=lambda o: o.encode(), indent=4)
 

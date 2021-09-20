@@ -17,3 +17,10 @@ class ProgramState:
 
     def parse_file(self, file_name):
         self.instructions_parser.parse_file(file_name)
+
+    def save_state(self, file_name):
+        print("Saving state to file")
+
+    def load_state(self, file_name):
+        print("Loading state")
+

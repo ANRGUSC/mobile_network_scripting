@@ -46,7 +46,7 @@ class UnitsController:
             waypoints_timelines[key] = value.waypoints_timeline
         return waypoints_timelines
 
-    def save_data(self):
+    def save_generated_data(self):
         with open("generated_data/units.json", "w") as outfile:
             combined_data = {
                 "units": self.units_data,

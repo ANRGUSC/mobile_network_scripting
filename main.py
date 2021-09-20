@@ -25,6 +25,6 @@ if __name__ == '__main__':
     networks_data = graph_analyzer.run_graph_analysis(positions_history,
                                                       units_controller, map_controller, global_attributes, delayed_instructions)
 
-    units_controller.save_data()
-    simulation.save_data()
-    graph_analyzer.save_data(networks_data)
+    units_controller.save_generated_data()
+    simulation.save_generated_data()
+    graph_analyzer.save_generated_data(networks_data)
