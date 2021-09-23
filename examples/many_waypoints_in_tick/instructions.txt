@@ -1,4 +1,4 @@
-load_map("input_data/map.json")
+load_map("input_data_defaults/map.json")
 
 set_attribute("time_duration", 15.0)
 set_attribute("time_step", 1.0)

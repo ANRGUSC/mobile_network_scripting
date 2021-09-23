@@ -3,6 +3,9 @@ from util.file_operations import load_json_from_file
 class MapController:
     cellular_zones = []
 
+    def __init__(self, file_name):
+        self.load_map(file_name)
+
     def load_map(self, file_name):
         json = load_json_from_file(file_name)
         self.scale = json["metadata"]["scale"]

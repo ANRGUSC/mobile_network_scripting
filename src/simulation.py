@@ -15,7 +15,7 @@ class Simulation:
         self.delayed_instructions = delayed_instructions
 
     def save_generated_data(self, file_name):
-        create_blank_file("workspace/generated_data/simulation.json")
+        create_blank_file(file_name)
         with open(file_name, "w") as outfile:
             json.dump(self.simulation_data, outfile, default=lambda o: o.encode(), indent=4)
 
@@ -63,7 +63,7 @@ class Simulation:
             current_coord = clamped_new_coord
         return current_coord
 
-    def run_simulation(self, time_step, time_limit):
+    def run_simulation(self, time_step, time_duration):
         current_positions = self.units_controller.get_starting_positions()
         waypoints_timelines = self.units_controller.get_waypoints_timelines()
         unit_to_end_time = {}
@@ -76,10 +76,10 @@ class Simulation:
         positions_history = []
         self.simulation_data["metadata"] = {
             "time_step": time_step,
-            "time_limit": time_limit
+            "time_duration": time_duration
         }
         self.simulation_data["positions"] = []
-        while current_time <= time_limit:
+        while current_time <= time_duration:
             for unit_key, current_coord in current_positions.items():
                 waypoints_timeline = waypoints_timelines[unit_key]
                 if len(waypoints_timeline) >= 1 and waypoints_timeline[0]["start_time"] <= current_time:

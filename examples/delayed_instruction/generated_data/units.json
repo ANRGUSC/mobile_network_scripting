@@ -1,0 +1,19 @@
+{
+    "units": {
+        "unit_1": {
+            "key": "unit_1",
+            "name": "pedestrian",
+            "unit_type": "type_a",
+            "has_standard_radio": false,
+            "has_cellular_radio": false,
+            "has_satellite_link": false,
+            "starting_position": [
+                0.0,
+                0.0
+            ],
+            "waypoints": [],
+            "waypoints_timeline": []
+        }
+    },
+    "groups": {}
+}

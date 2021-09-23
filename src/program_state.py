@@ -6,11 +6,11 @@ from delayed_instructions import *
 from instructions_parser import InstructionsParser
 
 class ProgramState:
-    def __init__(self, unit_types_file):
+    def __init__(self, unit_types_file, map_file, global_attributes_file):
         self.instruction_var = {}
-        self.global_attributes = GlobalAttributes()
+        self.global_attributes = GlobalAttributes(global_attributes_file)
         self.units_controller = UnitsController(unit_types_file)
-        self.map_controller = MapController()
+        self.map_controller = MapController(map_file)
         self.delayed_instructions = DelayedInstructions()
         self.instructions_parser = InstructionsParser(self.instruction_var, self.units_controller, 
                 self.map_controller, self.global_attributes, self.delayed_instructions)

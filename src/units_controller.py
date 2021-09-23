@@ -46,7 +46,7 @@ class UnitsController:
         return waypoints_timelines
 
     def save_generated_data(self, file_name):
-        create_blank_file("workspace/generated_data/units.json")
+        create_blank_file(file_name)
         with open(file_name, "w") as outfile:
             combined_data = {
                 "units": self.units_data,

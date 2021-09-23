@@ -1,8 +1,3 @@
-load_map("input_data_defaults/map.json")
-
-set_attribute("time_duration", 15.0)
-set_attribute("time_step", 1.0)
-
 a = create_units("pedestrian", "type_a", 1)
 b = create_units("UAV", "type_b", 1)
 c = create_units("vehicle", "type_c", 1)

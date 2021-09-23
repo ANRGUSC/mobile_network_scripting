@@ -85,6 +85,6 @@ def run_graph_analysis(positions_history, units_controller, map_controller, glob
 
 
 def save_generated_data(file_name, networks_data):
-    create_blank_file("workspace/generated_data/networks.json")
+    create_blank_file(file_name)
     with open(file_name, "w") as outfile:
         json.dump(networks_data, outfile, default=lambda o: o.encode(), indent=4)

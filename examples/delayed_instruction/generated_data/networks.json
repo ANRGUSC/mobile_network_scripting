@@ -1,0 +1,13 @@
+[
+    "{\"directed\": false, \"multigraph\": false, \"graph\": {}, \"nodes\": [{\"has_standard_radio\": false, \"has_cellular_radio\": false, \"has_satellite_link\": false, \"coord\": [7.0710678118654755, 7.0710678118654755], \"id\": \"unit_1\"}], \"links\": []}",
+    "{\"directed\": false, \"multigraph\": false, \"graph\": {}, \"nodes\": [{\"has_standard_radio\": false, \"has_cellular_radio\": false, \"has_satellite_link\": false, \"coord\": [10.0, 10.0], \"id\": \"unit_1\"}], \"links\": []}",
+    "{\"directed\": false, \"multigraph\": false, \"graph\": {}, \"nodes\": [{\"has_standard_radio\": false, \"has_cellular_radio\": false, \"has_satellite_link\": false, \"coord\": [10.0, 10.0], \"id\": \"unit_1\"}], \"links\": []}",
+    "{\"directed\": false, \"multigraph\": false, \"graph\": {}, \"nodes\": [{\"has_standard_radio\": true, \"has_cellular_radio\": true, \"has_satellite_link\": false, \"coord\": [10.0, 10.0], \"id\": \"unit_1\"}], \"links\": []}",
+    "{\"directed\": false, \"multigraph\": false, \"graph\": {}, \"nodes\": [{\"has_standard_radio\": true, \"has_cellular_radio\": true, \"has_satellite_link\": false, \"coord\": [10.0, 10.0], \"id\": \"unit_1\"}], \"links\": []}",
+    "{\"directed\": false, \"multigraph\": false, \"graph\": {}, \"nodes\": [{\"has_standard_radio\": false, \"has_cellular_radio\": false, \"has_satellite_link\": false, \"coord\": [10.0, 10.0], \"id\": \"unit_1\"}], \"links\": []}",
+    "{\"directed\": false, \"multigraph\": false, \"graph\": {}, \"nodes\": [{\"has_standard_radio\": false, \"has_cellular_radio\": false, \"has_satellite_link\": false, \"coord\": [10.0, 10.0], \"id\": \"unit_1\"}], \"links\": []}",
+    "{\"directed\": false, \"multigraph\": false, \"graph\": {}, \"nodes\": [{\"has_standard_radio\": false, \"has_cellular_radio\": false, \"has_satellite_link\": false, \"coord\": [10.0, 10.0], \"id\": \"unit_1\"}], \"links\": []}",
+    "{\"directed\": false, \"multigraph\": false, \"graph\": {}, \"nodes\": [{\"has_standard_radio\": false, \"has_cellular_radio\": false, \"has_satellite_link\": false, \"coord\": [10.0, 10.0], \"id\": \"unit_1\"}], \"links\": []}",
+    "{\"directed\": false, \"multigraph\": false, \"graph\": {}, \"nodes\": [{\"has_standard_radio\": false, \"has_cellular_radio\": false, \"has_satellite_link\": true, \"coord\": [10.0, 10.0], \"id\": \"unit_1\"}], \"links\": []}",
+    "{\"directed\": false, \"multigraph\": false, \"graph\": {}, \"nodes\": [{\"has_standard_radio\": false, \"has_cellular_radio\": false, \"has_satellite_link\": false, \"coord\": [10.0, 10.0], \"id\": \"unit_1\"}], \"links\": []}"
+]

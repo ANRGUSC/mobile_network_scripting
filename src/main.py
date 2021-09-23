@@ -6,12 +6,19 @@ from units_controller import *
 from map_controller import *
 from simulation import Simulation
 from program_state import ProgramState
+from argparse import ArgumentParser
 
 
 
 if __name__ == '__main__':
-    program_state = ProgramState("input_data_defaults/unit_types.json")
-    program_state.parse_instruction_file("workspace/instructions.txt")
+    parser = ArgumentParser()
+    parser.add_argument("-w", "--workspace", dest="workspace",
+                    help="folder that includes instructions and outputs", metavar="WORKSPACE")
+    args = parser.parse_args()
+
+    program_state = ProgramState("input_data_defaults/unit_types.json", "input_data_defaults/map.json",
+            "input_data_defaults/global_attributes.json")
+    program_state.parse_instruction_file(args.workspace + "/instructions.txt")
     program_state.save_state("program_states/state.txt")
     
     global_attributes = program_state.global_attributes
@@ -27,6 +34,6 @@ if __name__ == '__main__':
     networks_data = graph_analyzer.run_graph_analysis(positions_history,
                                                       units_controller, map_controller, global_attributes, delayed_instructions)
 
-    units_controller.save_generated_data("workspace/generated_data/units.json")
-    simulation.save_generated_data("workspace/generated_data/simulation.json")
-    graph_analyzer.save_generated_data("workspace/generated_data/networks.json", networks_data)
+    units_controller.save_generated_data(args.workspace + "/generated_data/units.json")
+    simulation.save_generated_data(args.workspace + "/generated_data/simulation.json")
+    graph_analyzer.save_generated_data(args.workspace + "/generated_data/networks.json", networks_data)
