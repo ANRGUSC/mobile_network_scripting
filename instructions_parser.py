@@ -34,11 +34,11 @@ class InstructionsParser:
             attribute = param_list[0]
             value = param_list[1]
             if attribute == "time_step":
-                self.global_attributes.time_step = float(value)
+                self.global_attributes.time_step = value
             elif attribute == "time_duration":
-                self.global_attributes.time_duration = float(value)
+                self.global_attributes.time_duration = value
             elif attribute == "standard_radio_radius":
-                self.global_attributes.standard_radio_radius = float(value)
+                self.global_attributes.standard_radio_radius = value
         elif function_name == "equip":
             units_list = param_list[0]
             if param_list[1] == "standard_radio":
@@ -83,7 +83,7 @@ class InstructionsParser:
             self.delayed_instructions.add_stop_movement(units_list, time)
         elif function_name == "change_equipment_at_time":
             units_list = param_list[0]
-            time = float(param_list[1])
+            time = param_list[1]
             turn_on = param_list[2]
             equipment_name = param_list[3]
             self.delayed_instructions.add_change_equipment(self.convert_unit_list_to_key_list(units_list), 

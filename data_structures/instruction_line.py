@@ -59,6 +59,8 @@ def convert_string_to_type(string, var_to_position):
         return generate_list(string, var_to_position)
     elif string.isdigit():
         return int(string)
+    elif string.replace('.','',1).isdigit():
+        return float(string)
     return string
 
 
