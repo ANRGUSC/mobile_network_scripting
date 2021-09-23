@@ -42,13 +42,13 @@ class MapController:
                 bot_mid = (row+1, col)
                 bot_right = (row+1, col+1)
                 if is_in_bounds(top_right, row_size+1, col_size+1):
-                    graph.add_edge(top_mid, top_right)
+                    graph.add_edge(top_mid, top_right, weight=1.7)
                 if is_in_bounds(bot_left, row_size+1, col_size+1):
-                    graph.add_edge(top_mid, bot_left)
+                    graph.add_edge(top_mid, bot_left, weight=1.7)
                 if is_in_bounds(bot_mid, row_size+1, col_size+1):
-                    graph.add_edge(top_mid, bot_mid)
+                    graph.add_edge(top_mid, bot_mid, weight=1.0)
                 if is_in_bounds(bot_right, row_size+1, col_size+1):
-                    graph.add_edge(top_mid, bot_right)
+                    graph.add_edge(top_mid, bot_right, weight=1.7)
         return graph
 
     def add_cellular_zone(self, cellular_zone):
@@ -58,7 +58,7 @@ class MapController:
         return self.cellular_zones
 
     def get_allowable_terrain(self, map, coord):
-        return ".r"
+        return "_r"
 
     def convert_position_to_index(self, point):
         return (point[0] // self.scale, point[1] // self.scale)
@@ -70,10 +70,10 @@ class MapController:
             index = self.convert_position_to_index(point)
             graph_copy.add_node(count, coord=point,
                     allowable_terrain=self.get_allowable_terrain(map, point))
-            graph_copy.add_edge(index, count)
-            graph_copy.add_edge(index, (index[0], index[1]+1))
-            graph_copy.add_edge(index, (index[0]+1, index[1]))
-            graph_copy.add_edge(index, (index[0]+1, index[1]+1))
+            graph_copy.add_edge(index, count, weight=1.0)
+            graph_copy.add_edge(index, (index[0], index[1]+1), weight=1.0)
+            graph_copy.add_edge(index, (index[0]+1, index[1]), weight=1.0)
+            graph_copy.add_edge(index, (index[0]+1, index[1]+1), weight=1.0)
             nodes.append(count)
             count += 1
         return nodes
@@ -85,7 +85,7 @@ class MapController:
         for waypoint_index in range(0, len(waypoint_keys) - 1):
             curr_node_key = waypoint_keys[waypoint_index]
             next_node_key = waypoint_keys[waypoint_index + 1]
-            path = nx.shortest_path(graph_copy, source=curr_node_key, target=next_node_key)
+            path = nx.shortest_path(graph_copy, source=curr_node_key, target=next_node_key, weight="weight")
             for path_index in range(0, len(path)):
                 node_key = path[path_index]
                 if path_index == len(path)-1 and waypoint_index != len(waypoint_keys)-2:
@@ -93,10 +93,15 @@ class MapController:
                 waypoints.append(graph_copy.nodes[node_key]["coord"])
         return waypoints
 
+    def create_map_subgraph(self, allowable_terrain):
+        allowable_nodes = [x for x, y in self.map_graph.nodes(data=True) if '_' in y['allowable_terrain']]
+        print()
+        return self.map_graph.subgraph(allowable_nodes).copy()
+
     def convert_waypoints_to_path(self, waypoints, allowable_terrain):
-        graph_copy = self.map_graph.copy()
-        waypoint_keys = self.add_points_as_nodes(graph_copy, waypoints)
-        new_waypoints = self.find_path_from_nodes(graph_copy, waypoint_keys)
+        subgraph = self.create_map_subgraph(allowable_terrain)
+        waypoint_keys = self.add_points_as_nodes(subgraph, waypoints)
+        new_waypoints = self.find_path_from_nodes(subgraph, waypoint_keys)
         print(new_waypoints)
         return new_waypoints
 

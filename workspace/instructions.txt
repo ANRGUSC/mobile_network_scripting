@@ -2,6 +2,4 @@ a = create_units("pedestrian", "type_a", 1)
 b = create_units("UAV", "type_b", 1)
 c = create_units("vehicle", "type_c", 1)
 
-set_waypoints(a, [(10,10), (10, 50)])
-set_waypoints(b, [(20,20), (50,50)])
-set_waypoints(c, [(10,10), (50,10)])
+set_waypoints(a, [(50,0), (50, 90)])
