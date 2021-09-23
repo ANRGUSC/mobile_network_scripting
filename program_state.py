@@ -6,17 +6,14 @@ from delayed_instructions import *
 from instructions_parser import InstructionsParser
 
 class ProgramState:
-    def __init__(self):
+    def __init__(self, unit_types_file):
         self.instruction_var = {}
         self.global_attributes = GlobalAttributes()
-        self.units_controller = UnitsController()
+        self.units_controller = UnitsController(unit_types_file)
         self.map_controller = MapController()
         self.delayed_instructions = DelayedInstructions()
         self.instructions_parser = InstructionsParser(self.instruction_var, self.units_controller, 
                 self.map_controller, self.global_attributes, self.delayed_instructions)
-
-    def load_data_files(self, unit_types_file):
-        self.units_controller.load_data_files(unit_types_file)
 
     def parse_instruction_file(self, file_name):
         self.instructions_parser.parse_file(file_name)
