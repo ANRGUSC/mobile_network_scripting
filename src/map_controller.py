@@ -21,6 +21,7 @@ class MapController:
         json = load_json_from_file(file_name)
         self.scale = json["metadata"]["scale"]
         self.map = json["map"]
+        self.map.reverse()
         self.row_size = len(self.map)
         self.col_size = len(self.map[0])
         self.map_graph = self.construct_graph(self.map, self.row_size, self.col_size, self.scale)        
@@ -60,7 +61,7 @@ class MapController:
         return ".r"
 
     def convert_position_to_index(self, point):
-        return ((self.row_size*self.scale - point[0]) // self.scale, point[1] // self.scale)
+        return (point[0] // self.scale, point[1] // self.scale)
 
     def add_points_as_nodes(self, graph_copy, points):
         nodes = []
@@ -70,19 +71,24 @@ class MapController:
             graph_copy.add_node(count, coord=point,
                     allowable_terrain=self.get_allowable_terrain(map, point))
             graph_copy.add_edge(index, count)
+            graph_copy.add_edge(index, (index[0], index[1]+1))
+            graph_copy.add_edge(index, (index[0]+1, index[1]))
+            graph_copy.add_edge(index, (index[0]+1, index[1]+1))
             nodes.append(count)
             count += 1
         return nodes
 
     def find_path_from_nodes(self, graph_copy, waypoint_keys):
         waypoints = []
+        print(waypoint_keys)
+        print(len(waypoint_keys) - 1)
         for waypoint_index in range(0, len(waypoint_keys) - 1):
             curr_node_key = waypoint_keys[waypoint_index]
             next_node_key = waypoint_keys[waypoint_index + 1]
             path = nx.shortest_path(graph_copy, source=curr_node_key, target=next_node_key)
             for path_index in range(0, len(path)):
                 node_key = path[path_index]
-                if waypoint_index != len(waypoint_keys)-2 and path_index == len(path)-1:
+                if path_index == len(path)-1 and waypoint_index != len(waypoint_keys)-2:
                     continue
                 waypoints.append(graph_copy.nodes[node_key]["coord"])
         return waypoints
