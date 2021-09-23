@@ -74,10 +74,23 @@ class MapController:
             count += 1
         return nodes
 
+    def find_path_from_nodes(self, graph_copy, waypoint_keys):
+        waypoints = []
+        for waypoint_index in range(0, len(waypoint_keys) - 1):
+            curr_node_key = waypoint_keys[waypoint_index]
+            next_node_key = waypoint_keys[waypoint_index + 1]
+            path = nx.shortest_path(graph_copy, source=curr_node_key, target=next_node_key)
+            for path_index in range(0, len(path)):
+                node_key = path[path_index]
+                if waypoint_index != len(waypoint_keys)-2 and path_index == len(path)-1:
+                    continue
+                waypoints.append(graph_copy.nodes[node_key]["coord"])
+        return waypoints
+
     def convert_waypoints_to_path(self, waypoints, allowable_terrain):
         graph_copy = self.map_graph.copy()
-        waypoint_nodes = self.add_points_as_nodes(graph_copy, waypoints)
-        path = nx.shortest_path(graph_copy, source=waypoint_nodes[0], target=waypoint_nodes[1])
-        print(path)
-        return waypoints
+        waypoint_keys = self.add_points_as_nodes(graph_copy, waypoints)
+        new_waypoints = self.find_path_from_nodes(graph_copy, waypoint_keys)
+        print(new_waypoints)
+        return new_waypoints
 
