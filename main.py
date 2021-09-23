@@ -8,6 +8,7 @@ from simulation import Simulation
 from program_state import ProgramState
 
 
+
 if __name__ == '__main__':
     program_state = ProgramState()
     program_state.load_data_files("input_data/unit_types.json")

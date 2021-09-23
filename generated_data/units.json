@@ -8,8 +8,36 @@
             "has_cellular_radio": false,
             "has_satellite_link": false,
             "starting_position": [
-                0.0,
-                0.0
+                0,
+                0
+            ],
+            "waypoints": [],
+            "waypoints_timeline": []
+        },
+        "unit_2": {
+            "key": "unit_2",
+            "name": "UAV",
+            "unit_type": "type_b",
+            "has_standard_radio": false,
+            "has_cellular_radio": false,
+            "has_satellite_link": false,
+            "starting_position": [
+                0,
+                0
+            ],
+            "waypoints": [],
+            "waypoints_timeline": []
+        },
+        "unit_3": {
+            "key": "unit_3",
+            "name": "vehicle",
+            "unit_type": "type_c",
+            "has_standard_radio": false,
+            "has_cellular_radio": false,
+            "has_satellite_link": false,
+            "starting_position": [
+                0,
+                0
             ],
             "waypoints": [],
             "waypoints_timeline": []

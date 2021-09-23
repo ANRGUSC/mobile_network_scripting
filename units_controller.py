@@ -59,6 +59,9 @@ class UnitsController:
     def get_speed(self, key):
         return self.unit_types_data[self.units_data[key].unit_type]["speed"]
 
+    def get_allowable_terrain(self, key):
+        return self.unit_types_data[self.units_data[key].unit_type]["allowable_terrain"]
+
     def create_unit(self, name, unit_type, count=1, starting_position=(0, 0), waypoints=[], has_standard_radio=False,
                     has_cellular_radio=False, has_satellite_link=False):
         units_created = []

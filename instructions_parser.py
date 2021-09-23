@@ -103,7 +103,7 @@ class InstructionsParser:
                 rhs_value = instruction_line.rhs_value
 
                 # delete
-                print(initialized_variable, function_name, param_list)
+                # print(initialized_variable, function_name, param_list)
                 # delete
 
                 if function_name is not None:

@@ -38,6 +38,5 @@ class DelayedInstructions:
         for unit_key, time_list in self.stop_movement.items():
             self.stop_movement[unit_key].sort()
         self.change_equipment.sort(key=lambda x: x.time)
-        print(self.change_equipment[0].time, self.change_equipment[0].key_list, self.change_equipment[0].turn_on)
         
     

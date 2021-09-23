@@ -23,21 +23,22 @@ def calculate_new_coord(current_coord, destination_coord, coord_change):
             new_y = destination_coord[1]
     return new_x, new_y
 
-def calculate_coord_change_direction(time_step, current_coord, destination_coord):
+def calculate_coord_change_direction(current_coord, destination_coord):
     triangle_dist_x = abs(current_coord[0] - destination_coord[0])
     triangle_dist_y = abs(current_coord[1] - destination_coord[1])
 
     if triangle_dist_x == 0:
-        return 0, time_step
+        return 0, 1
     elif triangle_dist_y == 0:
-        return time_step, 0
+        return 1, 0
 
     ratio = triangle_dist_y / triangle_dist_x
     sum_of_squares = 1 + ratio * ratio
     common_denom = math.sqrt(1 / sum_of_squares)
-    change_x = time_step * common_denom
-    change_y = time_step * ratio * common_denom
-    return change_x, change_y
+    change_x = common_denom
+    change_y = ratio * common_denom
+    return (change_x if current_coord[0] < destination_coord[0] else -change_x, 
+            change_y if current_coord[1] < destination_coord[1] else -change_y)
 
 class Simulation:
     units_controller = {}
@@ -53,19 +54,53 @@ class Simulation:
         with open("generated_data/simulation.json", "w") as outfile:
             json.dump(self.simulation_data, outfile, default=lambda o: o.encode(), indent=4)
 
-    def calculate_paths(self):
-        return self.units_controller.get_waypoints()
+    def calculate_dist_between_points(self, point_1, point_2):
+        return math.sqrt((point_1[0] - point_2[0])**2 + (point_1[1] - point_2[1])**2)
 
-    def move_given_path(self, unit_key, current_coord, current_path, time_step):
-        if len(current_path) == 0:
-            return current_coord
-        destination_coord = current_path[0]
-        coord_change_direction = calculate_coord_change_direction(time_step, current_coord, destination_coord)
-        coord_change_scaled = ([self.units_controller.get_speed(unit_key) * value for value in coord_change_direction])
-        new_coord = calculate_new_coord(current_coord, destination_coord, coord_change_scaled)
-        if new_coord == destination_coord:
-            current_path.pop(0)
-        return new_coord
+    def clamp_new_coord(self, current_coord, unclamped_new_coord, destination_coord):
+        dist_to_unclamped = self.calculate_dist_between_points(current_coord, unclamped_new_coord)
+        dist_to_destination = self.calculate_dist_between_points(current_coord, destination_coord)
+        if dist_to_unclamped > dist_to_destination:
+            return destination_coord
+        # if current_coord[0] < destination_coord[0]:
+        #     if new_coord[0] > destination_coord[0]:
+        #         new_coord[0] = destination_coord[0]
+        # else:
+        #     if new_x < destination_coord[0]:
+        #         new_x = destination_coord[0]
+        # if current_coord[1] < destination_coord[1]:
+        #     if new_y > destination_coord[1]:
+        #         new_y = destination_coord[1]
+        # else:
+        #     if new_y < destination_coord[1]:
+        #         new_y = destination_coord[1]
+        # return new_coord
+
+    def move_given_path(self, unit_key, current_coord, current_path, time_left):
+        # Do not recalculate direction of it has not changed
+        while time_left > 0 and len(current_path) > 0:
+            destination_coord = current_path[0]
+            coord_change_direction = calculate_coord_change_direction(current_coord, destination_coord)
+            coord_change_scaled = ([self.units_controller.get_speed(unit_key) * time_left * value for value in coord_change_direction])
+            unclamped_new_coord = (current_coord[0] + coord_change_scaled[0], current_coord[1] + coord_change_scaled[1])
+            dist_to_unclamped = self.calculate_dist_between_points(current_coord, unclamped_new_coord)
+            dist_to_destination = self.calculate_dist_between_points(current_coord, destination_coord)
+            clamped_new_coord = unclamped_new_coord
+            if dist_to_unclamped > dist_to_destination:
+                clamped_new_coord = destination_coord
+                current_path.pop(0)
+            dist_to_clamped = self.calculate_dist_between_points(current_coord, clamped_new_coord)    
+            time_left *= (1 - (dist_to_clamped / dist_to_unclamped))
+            current_coord = clamped_new_coord
+            # unclamped_new_coord = (current_coord[0] + coord_change_scaled[0], current_coord[1] + coord_change_scaled[1])
+            # clamped_new_coord = self.clamp_new_coord(current_coord, unclamped_new_coord, destination_coord)
+            # dist_to_unclamped = self.calculate_dist_between_points(current_coord, unclamped_new_coord)
+            # dist_to_clamped = self.calculate_dist_between_points(current_coord, clamped_new_coord)       
+            # time_left *= (1 - (dist_to_clamped / dist_to_unclamped))
+            # if clamped_new_coord == destination_coord:
+            #     current_path.pop(0)
+            # current_coord = clamped_new_coord
+        return current_coord
 
     def run_simulation(self, time_step, time_limit):
         current_positions = self.units_controller.get_starting_positions()
@@ -89,7 +124,7 @@ class Simulation:
                 if len(waypoints_timeline) >= 1 and waypoints_timeline[0]["start_time"] <= current_time:
                     waypoints_to_follow = waypoints_timeline[0]["waypoints"]
                     unit_to_end_time[unit_key] = waypoints_timeline[0]["end_time"]
-                    current_paths[unit_key] = self.map_controller.convert_waypoints_to_path(waypoints_to_follow)
+                    current_paths[unit_key] = self.map_controller.convert_waypoints_to_path(waypoints_to_follow, self.units_controller.get_allowable_terrain(unit_key))
                     waypoints_timeline.pop(0)
                 if self.delayed_instructions.get_stop_movement_time(unit_key) <= current_time:
                     current_paths[unit_key] = []
