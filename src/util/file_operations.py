@@ -2,9 +2,9 @@ import json
 from pathlib import Path
 
 
-def create_blank_file(directory, file_name):
-    Path("generated_data").mkdir(parents=True, exist_ok=True)
-    full_path = directory + "/" + file_name
+def create_blank_file(full_path):
+    directory = full_path[:full_path.rindex('/')]
+    Path(directory).mkdir(parents=True, exist_ok=True)
     file_path = Path(full_path)
     if file_path.is_file() is False:
         with open(full_path, "w") as outfile:

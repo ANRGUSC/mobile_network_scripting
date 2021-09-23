@@ -13,10 +13,10 @@ class Simulation:
         self.units_controller = units_controller
         self.map_controller = map_controller
         self.delayed_instructions = delayed_instructions
-        create_blank_file("generated_data", "simulation.json")
 
-    def save_generated_data(self):
-        with open("generated_data/simulation.json", "w") as outfile:
+    def save_generated_data(self, file_name):
+        create_blank_file("workspace/generated_data/simulation.json")
+        with open(file_name, "w") as outfile:
             json.dump(self.simulation_data, outfile, default=lambda o: o.encode(), indent=4)
 
     def calculate_coord_change_direction(self, current_coord, destination_coord):

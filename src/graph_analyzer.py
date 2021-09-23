@@ -47,7 +47,6 @@ def create_standard_radio_edges(graph, standard_radio_radius):
 
 
 def run_graph_analysis(positions_history, units_controller, map_controller, global_attributes, delayed_instructions):
-    create_blank_file("generated_data", "networks.json")
     graph = nx.Graph()
     for key, value in units_controller.get_units_data().items():
         graph.add_node(key, has_standard_radio=value.has_standard_radio,
@@ -85,6 +84,7 @@ def run_graph_analysis(positions_history, units_controller, map_controller, glob
     return networks_data
 
 
-def save_generated_data(networks_data):
-    with open("generated_data/networks.json", "w") as outfile:
+def save_generated_data(file_name, networks_data):
+    create_blank_file("workspace/generated_data/networks.json")
+    with open(file_name, "w") as outfile:
         json.dump(networks_data, outfile, default=lambda o: o.encode(), indent=4)

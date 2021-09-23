@@ -10,8 +10,8 @@ from program_state import ProgramState
 
 
 if __name__ == '__main__':
-    program_state = ProgramState("input_data/unit_types.json")
-    program_state.parse_instruction_file("input_data/instructions.txt")
+    program_state = ProgramState("input_data_defaults/unit_types.json")
+    program_state.parse_instruction_file("workspace/instructions.txt")
     program_state.save_state("program_states/state.txt")
     
     global_attributes = program_state.global_attributes
@@ -27,6 +27,6 @@ if __name__ == '__main__':
     networks_data = graph_analyzer.run_graph_analysis(positions_history,
                                                       units_controller, map_controller, global_attributes, delayed_instructions)
 
-    units_controller.save_generated_data()
-    simulation.save_generated_data()
-    graph_analyzer.save_generated_data(networks_data)
+    units_controller.save_generated_data("workspace/generated_data/units.json")
+    simulation.save_generated_data("workspace/generated_data/simulation.json")
+    graph_analyzer.save_generated_data("workspace/generated_data/networks.json", networks_data)

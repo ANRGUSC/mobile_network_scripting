@@ -15,7 +15,6 @@ class UnitsController:
 
     def __init__(self, unit_types_file):
         self.unit_types_data = load_json_from_file(unit_types_file)
-        create_blank_file("generated_data", "units.json")
 
     def get_next_unit_key(self):
         self.units_created_count += 1
@@ -46,8 +45,9 @@ class UnitsController:
             waypoints_timelines[key] = value.waypoints_timeline
         return waypoints_timelines
 
-    def save_generated_data(self):
-        with open("generated_data/units.json", "w") as outfile:
+    def save_generated_data(self, file_name):
+        create_blank_file("workspace/generated_data/units.json")
+        with open(file_name, "w") as outfile:
             combined_data = {
                 "units": self.units_data,
                 "groups": self.groups
