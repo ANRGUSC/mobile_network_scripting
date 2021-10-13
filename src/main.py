@@ -1,13 +1,8 @@
 import graph_analyzer
-from data_structures.global_attributes import *
-from delayed_instructions import *
-from instructions_parser import InstructionsParser
-from units_controller import *
-from map_controller import *
 from simulation import Simulation
 from program_state import ProgramState
 from argparse import ArgumentParser
-
+from display_controller import DisplayController
 
 
 if __name__ == '__main__':
@@ -37,3 +32,6 @@ if __name__ == '__main__':
     units_controller.save_generated_data(args.workspace + "/generated_data/units.json")
     simulation.save_generated_data(args.workspace + "/generated_data/simulation.json")
     graph_analyzer.save_generated_data(args.workspace + "/generated_data/networks.json", networks_data)
+
+    display_controller = DisplayController(units_controller, map_controller, positions_history, global_attributes)
+    display_controller.display()

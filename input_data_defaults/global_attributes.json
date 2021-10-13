@@ -1,5 +1,6 @@
 {
-    "time_duration": 10,
-    "time_step": 1,
-    "standard_radio_radius": 3
+    "time_duration": 20,
+    "time_step": 0.05,
+    "standard_radio_radius": 3,
+    "length_to_pixels": 5
 }

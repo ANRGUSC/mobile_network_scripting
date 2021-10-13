@@ -1,12 +1,7 @@
-import graph_analyzer
 import math
-from units_controller import *
-from simulation import Simulation
 from shapely.geometry.polygon import Polygon
 from data_structures.instruction_line import InstructionLine
-import re
-from util.util import set_equipment, split_list_with_braces
-from util.file_operations import create_blank_file
+from util.util import set_equipment
 
 
 class InstructionsParser:

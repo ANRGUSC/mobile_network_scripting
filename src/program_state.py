@@ -1,8 +1,7 @@
-from data_structures.global_attributes import *
-from units_controller import *
-from map_controller import *
-from simulation import Simulation
-from delayed_instructions import *
+from data_structures.global_attributes import GlobalAttributes
+from units_controller import UnitsController
+from map_controller import MapController
+from delayed_instructions import DelayedInstructions
 from instructions_parser import InstructionsParser
 
 class ProgramState:

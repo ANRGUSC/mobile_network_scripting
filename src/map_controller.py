@@ -105,3 +105,8 @@ class MapController:
         print(new_waypoints)
         return new_waypoints
 
+    def get_scale(self):
+        return self.scale
+
+    def get_map(self):
+        return self.map

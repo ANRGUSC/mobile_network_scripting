@@ -1,5 +1,5 @@
 import math
-from data_structures.change_equip_instruct import *
+from data_structures.change_equip_instruct import ChangeEquipInstruct
 
 class DelayedInstructions:
     stop_movement = {}

@@ -1,2 +1,2 @@
 a = create_units("pedestrian", "type_a", 1)
-set_waypoints(a, [(50,0), (50, 90)])
+set_waypoints(a, [(50,0), (50, 95)])

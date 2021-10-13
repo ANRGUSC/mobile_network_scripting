@@ -9,3 +9,4 @@ class GlobalAttributes:
         self.time_duration = data["time_duration"]
         self.time_step = data["time_step"]
         self.standard_radio_radius = data["standard_radio_radius"]
+        self.length_to_pixels = data["length_to_pixels"]

@@ -1,2 +1,4 @@
 networkx==2.6.3
 Shapely==1.7.1
+
+pygame~=2.0.1
