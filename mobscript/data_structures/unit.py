@@ -1,6 +1,16 @@
+from typing import Any, Dict, List, Tuple
+
+
 class Unit:
-    def __init__(self, key, name, unit_type, starting_position=(0, 0), waypoints=[], has_standard_radio=False,
-                 has_cellular_radio=False, has_satellite_link=False):
+    def __init__(self, 
+                 key: str, 
+                 name: str, 
+                 unit_type: int, 
+                 starting_position: Tuple[int, int] = (0, 0), 
+                 waypoints: List[Tuple[int, int]] = [], 
+                 has_standard_radio: bool = False,
+                 has_cellular_radio: bool = False, 
+                 has_satellite_link: bool = False) -> None:
         self.key = key
         self.name = name
         self.unit_type = unit_type
@@ -11,13 +21,16 @@ class Unit:
         self.waypoints = waypoints
         self.waypoints_timeline = []
 
-    def encode(self):
+    def encode(self) -> Dict[str, Any]:
         return self.__dict__
 
-    def set_equipment(self, unit, has_standard_radio, has_cellular_radio, has_satellite_link):
+    def set_equipment(self, 
+                      has_standard_radio: bool, 
+                      has_cellular_radio: bool, 
+                      has_satellite_link: bool) -> None:
         self.has_standard_radio = has_standard_radio
         self.has_cellular_radio = has_cellular_radio
         self.has_satellite_link = has_satellite_link
 
-    def initialize(self):
+    def initialize(self) -> None:
         self.waypoints_timeline.sort(key=lambda x: x["start_time"])

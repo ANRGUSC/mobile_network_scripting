@@ -1,15 +1,11 @@
+from typing import Any, Dict, List
+
+from .unit import Unit
+
 class Group:
-    def __init__(self, key, units_list):
+    def __init__(self, key: str, units_list: List[Unit]) -> None:
         self.key = key
         self.units_list = units_list
 
-    def encode(self):
+    def encode(self) -> Dict[str, Any]:
         return self.__dict__
-
-    # def set_starting_positions(self, starting_position):
-    #     for unit in self.units_list:
-    #         unit.starting_position = starting_position
-    #
-    # def set_waypoints(self, waypoints):
-    #     for unit in self.units_list:
-    #         unit.waypoints = waypoints

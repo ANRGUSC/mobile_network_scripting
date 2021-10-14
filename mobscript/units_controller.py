@@ -1,4 +1,6 @@
 import json
+import pathlib
+from typing import Any, Dict, List
 
 from .util.file_operations import load_json_from_file
 from .util.file_operations import create_blank_file
@@ -9,25 +11,25 @@ from .data_structures.group import Group
 class UnitsController:
     units_created_count = 0
     groups_created_count = 0
-    units_data = {}
-    unit_types_data = {}
-    groups = {}
+    units_data: Dict[str, Unit] = {}
+    unit_types_data: Dict[int, Dict[str, Any]] = {}
+    groups: Dict[str, Group] = {}
 
-    def __init__(self, unit_types_file):
-        self.unit_types_data = load_json_from_file(unit_types_file)
+    def __init__(self, unit_types_file: pathlib.Path) -> None:
+        self.unit_types_data = load_json_from_file(pathlib.Path(unit_types_file))
 
-    def get_next_unit_key(self):
+    def get_next_unit_key(self) -> str:
         self.units_created_count += 1
         return "unit_{}".format(self.units_created_count)
 
-    def get_next_group_key(self):
+    def get_next_group_key(self) -> str:
         self.groups_created_count += 1
         return "group_{}".format(self.groups_created_count)
 
-    def get_units_data(self):
+    def get_units_data(self) -> Dict:
         return self.units_data
 
-    def get_starting_positions(self):
+    def get_starting_positions(self) -> Dict[str]:
         starting_positions = {}
         for key, value in self.units_data.items():
             starting_positions[key] = value.starting_position
@@ -60,25 +62,39 @@ class UnitsController:
     def get_allowable_terrain(self, key):
         return self.unit_types_data[self.units_data[key].unit_type]["allowable_terrain"]
 
-    def create_unit(self, name, unit_type, count=1, starting_position=(0, 0), waypoints=[], has_standard_radio=False,
-                    has_cellular_radio=False, has_satellite_link=False):
+    def create_unit(self, 
+                    name: str, 
+                    unit_type: int, 
+                    count=1, 
+                    starting_position=(0, 0), 
+                    waypoints=[], 
+                    has_standard_radio=False,
+                    has_cellular_radio=False, 
+                    has_satellite_link=False) -> Dict[str, Unit]:
         units_created = []
-        for i in range(count):
-            unit = Unit(self.get_next_unit_key(), name, unit_type, starting_position, waypoints, has_standard_radio,
-                        has_cellular_radio,
-                        has_satellite_link)
+        for _ in range(count):
+            unit = Unit(
+                self.get_next_unit_key(), 
+                name, 
+                unit_type, 
+                starting_position, 
+                waypoints, 
+                has_standard_radio,
+                has_cellular_radio,
+                has_satellite_link
+            )
             units_created.append(unit)
             self.units_data[unit.key] = unit
         return units_created
 
-    def create_group(self, units):
+    def create_group(self, units: List[Unit]) -> Group:
         group = Group(self.get_next_group_key(), units)
         self.groups[group.key] = group
         return group
 
-    def initialize_units(self):
+    def initialize_units(self) -> None:
         for key, value in self.units_data.items():
             value.initialize()
 
-    def get_unit_keys(self):
+    def get_unit_keys(self) -> List[str]:
         return list(self.units_data.keys())

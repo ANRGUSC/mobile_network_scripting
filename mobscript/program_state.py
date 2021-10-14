@@ -12,9 +12,9 @@ class ProgramState:
                  map_file: pathlib.Path, 
                  global_attributes_file: pathlib.Path) -> None:
         self.instruction_var = {}
-        self.global_attributes = GlobalAttributes(global_attributes_file)
-        self.units_controller = UnitsController(unit_types_file)
-        self.map_controller = MapController(map_file)
+        self.global_attributes = GlobalAttributes(pathlib.Path(global_attributes_file))
+        self.units_controller = UnitsController(pathlib.Path(unit_types_file))
+        self.map_controller = MapController(pathlib.Path(map_file))
         self.delayed_instructions = DelayedInstructions()
         self.instructions_parser = InstructionsParser(
             self.instruction_var, self.units_controller,

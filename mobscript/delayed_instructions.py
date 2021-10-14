@@ -1,24 +1,26 @@
 import math
+from typing import List
 
+from .data_structures.unit import Unit
 from .data_structures.change_equip_instruct import ChangeEquipInstruct
 
 class DelayedInstructions:
     stop_movement = {}
     change_equipment = []
 
-    def add_stop_movement(self, unit_list, time):
+    def add_stop_movement(self, unit_list: List[Unit], time: int) -> None:
         for unit in unit_list:
             unit_key = unit.key
             time_list = self.stop_movement[unit_key] if unit_key in self.stop_movement else []
             time_list.append(time)
             self.stop_movement[unit_key] = time_list
 
-    def get_stop_movement_time(self, unit_key):
+    def get_stop_movement_time(self, unit_key: int) -> List[int]:
         if unit_key not in self.stop_movement or not self.stop_movement[unit_key]:
             return math.inf
         return self.stop_movement[unit_key][0]
 
-    def remove_stop_movement_time(self, unit_key):
+    def remove_stop_movement_time(self, unit_key: int) -> int:
         self.stop_movement[unit_key].pop(0)
 
     def add_change_equipment(self, unit_list, time, turn_on, has_standard_radio,
