@@ -54,7 +54,7 @@ class UnitsController:
             "groups": self.groups
         }
         pathlib.Path(file_name).write_text(
-            json.dump(combined_data, default=lambda o: o.encode(), indent=4)
+            json.dumps(combined_data, default=lambda o: o.encode(), indent=4)
         )
 
     def get_speed(self, key: str) -> Union[int, float]:
