@@ -1,10 +1,19 @@
+from typing import Callable, Dict, List, Tuple, Union
 import pygame
 import math
-from pygame.locals import *
-
+from pygame.locals import QUIT
+from .data_structures.global_attributes import GlobalAttributes
+from .data_structures.unit import Unit
+from .map_controller import MapController
+from .units_controller import UnitsController
 
 class UnitSprite():
-    def __init__(self, screen, unit_key, unit_data, positions_history, time_step):
+    def __init__(self, 
+                 screen: pygame.Surface, 
+                 unit_key: str, 
+                 unit_data: Unit, 
+                 positions_history, 
+                 time_step):
         self.screen = screen
         self.unit_key = unit_key
         self.unit_data = unit_data
@@ -13,12 +22,14 @@ class UnitSprite():
         self.radius = 10
         self.curr_pos = None
 
-    def update(self, curr_time):
+    def update(self, curr_time: Union[int, float]) -> None:
         time_index = math.floor(curr_time // self.time_step)
         self.curr_pos = self.positions_history[time_index][self.unit_key]
         self.curr_pos = (self.curr_pos[1], self.curr_pos[0])
 
-    def display(self, convert_coord_func, origin):
+    def display(self, 
+                convert_coord_func: Callable[[Tuple[int, int], Tuple[int, int], int], Tuple[int, int]], 
+                origin: Tuple[int, int]) -> None:
         screen_width, screen_height = self.screen.get_size()
         converted_coord = convert_coord_func(self.curr_pos, origin, screen_height)
         pygame.draw.circle(self.screen, (0, 0, 255), converted_coord, self.radius)
@@ -26,7 +37,11 @@ class UnitSprite():
 
 
 class DisplayController:
-    def __init__(self, units_controller, map_controller, positions_history, global_attributes):
+    def __init__(self, 
+                 units_controller: UnitsController, 
+                 map_controller: MapController, 
+                 positions_history: List[Dict[str, Tuple[Union[int, float], Union[int, float]]]], 
+                 global_attributes: GlobalAttributes) -> None:
         self.units_controller = units_controller
         self.map_controller = map_controller
         self.positions_history = positions_history
@@ -35,13 +50,16 @@ class DisplayController:
         self.length_to_pixels = self.global_attributes.length_to_pixels
         self.multiplier = self.global_attributes.length_to_pixels * self.scale
 
-    def convert_coord(self, coord, origin, screen_height):
+    def convert_coord(self, 
+                      coord: Tuple[int, int], 
+                      origin: Tuple[int, int], 
+                      screen_height: int) -> Tuple[int, int]:
         coord_scaled = tuple(i * self.length_to_pixels for i in coord)
         coord_flip = coord_scaled[0], screen_height - coord_scaled[1]
         coord_by_origin = coord_flip[0] - origin[0], coord_flip[1] + origin[1]
         return coord_by_origin
 
-    def draw_map(self, screen, origin):
+    def draw_map(self, screen: pygame.Surface, origin: Tuple[int, int]) -> None:
         map = self.map_controller.get_map()
         screen_width, screen_height = screen.get_size()
         font = pygame.font.SysFont('Arial', 10)
@@ -54,13 +72,7 @@ class DisplayController:
                 pygame.draw.rect(screen, color, [pos_rect[0], pos_rect[1], self.multiplier, self.multiplier])
                 screen.blit(font.render(map[row][col], True, (255, 0, 0)), pos_char)
 
-    # def draw_units(self, screen, origin):
-    #     screen_width, screen_height = screen.get_size()
-    #     pos = self.convert_coord((50, 100), origin, screen_height)
-    #     pygame.draw.circle(screen, (0, 0, 255), pos, 50)
-    #     print(self.positions_history)
-
-    def display(self):
+    def display(self) -> None:
         pygame.init()
         screen = pygame.display.set_mode((800, 600))
         origin = (0, 0)
@@ -68,8 +80,13 @@ class DisplayController:
         unit_sprites = {}
         units_data = self.units_controller.get_units_data()
         for unit_key in units_data:
-            unit_sprites[unit_key] = UnitSprite(screen, unit_key, units_data[unit_key],
-                                                self.positions_history, self.global_attributes.time_step)
+            unit_sprites[unit_key] = UnitSprite(
+                screen, 
+                unit_key, 
+                units_data[unit_key],
+                self.positions_history, 
+                self.global_attributes.time_step
+            )
 
         start_time = pygame.time.get_ticks()
 

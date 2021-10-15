@@ -1,4 +1,4 @@
-from typing import Any, Dict, List, Tuple
+from typing import Any, Dict, List, Tuple, Union
 
 
 class Unit:
@@ -6,8 +6,8 @@ class Unit:
                  key: str, 
                  name: str, 
                  unit_type: int, 
-                 starting_position: Tuple[int, int] = (0, 0), 
-                 waypoints: List[Tuple[int, int]] = [], 
+                 starting_position: Tuple[Union[int, float], Union[int, float]] = (0, 0), 
+                 waypoints: List[Tuple[Union[int, float], Union[int, float]]] = [], 
                  has_standard_radio: bool = False,
                  has_cellular_radio: bool = False, 
                  has_satellite_link: bool = False) -> None:
@@ -19,7 +19,7 @@ class Unit:
         self.has_satellite_link = has_satellite_link
         self.starting_position = starting_position
         self.waypoints = waypoints
-        self.waypoints_timeline = []
+        self.waypoints_timeline: List[Dict[str, Any]] = []
 
     def encode(self) -> Dict[str, Any]:
         return self.__dict__

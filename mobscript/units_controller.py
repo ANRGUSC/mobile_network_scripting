@@ -1,6 +1,6 @@
 import json
 import pathlib
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Tuple, Union
 
 from .util.file_operations import load_json_from_file
 from .util.file_operations import create_blank_file
@@ -26,40 +26,41 @@ class UnitsController:
         self.groups_created_count += 1
         return "group_{}".format(self.groups_created_count)
 
-    def get_units_data(self) -> Dict:
+    def get_units_data(self) -> Dict[str, Unit]:
         return self.units_data
 
-    def get_starting_positions(self) -> Dict[str]:
+    def get_starting_positions(self) -> Dict[str, Tuple[Union[int, float], Union[int, float]]]:
         starting_positions = {}
         for key, value in self.units_data.items():
             starting_positions[key] = value.starting_position
         return starting_positions
 
-    def get_waypoints(self):
+    def get_waypoints(self) -> Dict[str, List[Tuple[Union[int, float], Union[int, float]]]]:
         waypoints = {}
         for key, value in self.units_data.items():
             waypoints[key] = value.waypoints
         return waypoints
 
-    def get_waypoints_timelines(self):
+    def get_waypoints_timelines(self) -> List[Dict[str, Any]]:
         waypoints_timelines = {}
         for key, value in self.units_data.items():
             waypoints_timelines[key] = value.waypoints_timeline
         return waypoints_timelines
 
-    def save_generated_data(self, file_name):
+    def save_generated_data(self, file_name: pathlib.Path) -> None:
         create_blank_file(file_name)
-        with open(file_name, "w") as outfile:
-            combined_data = {
-                "units": self.units_data,
-                "groups": self.groups
-            }
-            json.dump(combined_data, outfile, default=lambda o: o.encode(), indent=4)
+        combined_data = {
+            "units": self.units_data,
+            "groups": self.groups
+        }
+        pathlib.Path(file_name).write_text(
+            json.dump(combined_data, default=lambda o: o.encode(), indent=4)
+        )
 
-    def get_speed(self, key):
+    def get_speed(self, key: str) -> Union[int, float]:
         return self.unit_types_data[self.units_data[key].unit_type]["speed"]
 
-    def get_allowable_terrain(self, key):
+    def get_allowable_terrain(self, key: str) -> str:
         return self.unit_types_data[self.units_data[key].unit_type]["allowable_terrain"]
 
     def create_unit(self, 

@@ -1,26 +1,41 @@
 import math
 import pathlib
+from typing import Any, Dict, Iterable, List
 from shapely.geometry.polygon import Polygon
+from mobscript.data_structures.global_attributes import GlobalAttributes
+from mobscript.data_structures.unit import Unit
+from mobscript.delayed_instructions import DelayedInstructions
+from mobscript.map_controller import MapController
+
+from mobscript.units_controller import UnitsController
 
 from .data_structures.instruction_line import InstructionLine
 from .util.util import set_equipment
 
 
 class InstructionsParser:
-    def __init__(self, instruction_var, units_controller, map_controller, global_attributes, delayed_instructions):
+    def __init__(self, 
+                 instruction_var: Dict[str, Dict[str, Unit]], 
+                 units_controller: UnitsController, 
+                 map_controller: MapController, 
+                 global_attributes: GlobalAttributes, 
+                 delayed_instructions: DelayedInstructions) -> None:
         self.instruction_var = instruction_var
         self.units_controller = units_controller
         self.map_controller = map_controller
         self.global_attributes = global_attributes
         self.delayed_instructions = delayed_instructions
 
-    def convert_unit_list_to_key_list(self, unit_list):
+    def convert_unit_list_to_key_list(self, unit_list: Iterable[Unit]) -> List[str]:
         unit_keys = []
         for unit in unit_list:
             unit_keys.append(unit.key)
         return unit_keys
 
-    def handle_function(self, initialized_variable, function_name, param_list):
+    def handle_function(self, 
+                        initialized_variable: str, 
+                        function_name: str, 
+                        param_list: List) -> None:
         if function_name == "create_units":
             unit_name = param_list[0]
             unit_type = param_list[1]
@@ -88,7 +103,7 @@ class InstructionsParser:
                     equipment_name=="cellular_radio", equipment_name=="satellite_link")
 
 
-    def parse_file(self, file_name: pathlib.Path):
+    def parse_file(self, file_name: pathlib.Path) -> None:
         with pathlib.Path(file_name).open() as instructions_file:
             for line in instructions_file:
                 if not line.strip():

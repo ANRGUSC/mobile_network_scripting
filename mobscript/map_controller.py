@@ -1,5 +1,5 @@
 import pathlib
-from typing import List, Tuple
+from typing import List, Tuple, Union
 import networkx as nx
 from shapely.geometry.polygon import Polygon
 
@@ -71,7 +71,7 @@ class MapController:
 
     def add_points_as_nodes(self, 
                             graph: nx.Graph, 
-                            points: List[Tuple[int, int]]) -> List[int]:
+                            points: List[Tuple[Union[float, int], Union[float, int]]]) -> List[int]:
         nodes = []
         count = 0
         for point in points:
@@ -91,7 +91,7 @@ class MapController:
 
     def find_path_from_nodes(self, 
                              graph: nx.Graph, 
-                             waypoint_keys: List[int]) -> List[Tuple[int, int]]:
+                             waypoint_keys: List[int]) -> List[Tuple[Union[int, float], Union[int, float]]]:
         waypoints = []
         print(waypoint_keys)
         print(len(waypoint_keys) - 1)
@@ -115,8 +115,8 @@ class MapController:
         return self.map_graph.subgraph(allowable_nodes).copy()
 
     def convert_waypoints_to_path(self, 
-                                  waypoints: List[Tuple[int, int]], 
-                                  allowable_terrain: str) -> List[Tuple[int, int]]:
+                                  waypoints: List[Tuple[Union[int, float], Union[int, float]]], 
+                                  allowable_terrain: str) -> List[Tuple[Union[int, float], Union[int, float]]]:
         subgraph = self.create_map_subgraph(allowable_terrain)
         waypoint_keys = self.add_points_as_nodes(subgraph, waypoints)
         new_waypoints = self.find_path_from_nodes(subgraph, waypoint_keys)
