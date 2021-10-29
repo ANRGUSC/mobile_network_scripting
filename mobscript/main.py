@@ -22,15 +22,15 @@ def main():
     parser = get_parser()
     args = parser.parse_args()
 
+    workspace = pathlib.Path(args.workspace).resolve(strict=True)
+
     program_state = ProgramState(
         thisdir.joinpath("input_data_defaults", "unit_types.json"),
         thisdir.joinpath("input_data_defaults", "map.json"),
         thisdir.joinpath("input_data_defaults", "global_attributes.json") 
     )
 
-    program_state.parse_instruction_file(
-        pathlib.Path(args.workspace).joinpath("instructions.txt")
-    )
+    program_state.parse_instruction_file(workspace.joinpath("instructions.txt"))
     
     global_attributes = program_state.global_attributes
     units_controller = program_state.units_controller
@@ -40,8 +40,15 @@ def main():
     units_controller.initialize_units()
     delayed_instructions.initialize()
 
-    simulation = Simulation(units_controller, map_controller, delayed_instructions)
-    positions_history = simulation.run_simulation(global_attributes.time_step, global_attributes.time_duration)
+    simulation = Simulation(
+        units_controller, 
+        map_controller, 
+        delayed_instructions
+    )
+    positions_history = simulation.run_simulation(
+        global_attributes.time_step, 
+        global_attributes.time_duration
+    )
     networks_data = run_graph_analysis(
         positions_history,
         units_controller, 
@@ -50,11 +57,23 @@ def main():
         delayed_instructions
     )
 
-    units_controller.save_generated_data(args.workspace + "/generated_data/units.json")
-    simulation.save_generated_data(args.workspace + "/generated_data/simulation.json")
-    save_generated_data(args.workspace + "/generated_data/networks.json", networks_data)
+    units_controller.save_generated_data(
+        workspace.joinpath("generated_data", "units.json")
+    )
+    simulation.save_generated_data(
+        workspace.joinpath("generated_data", "simulation.json")
+    )
+    save_generated_data(
+        workspace.joinpath("generated_data", "networks.json"),
+        networks_data
+    )
 
-    display_controller = DisplayController(units_controller, map_controller, positions_history, global_attributes)
+    display_controller = DisplayController(
+        units_controller, 
+        map_controller, 
+        positions_history, 
+        global_attributes
+    )
     display_controller.display()
 
 
