@@ -1,12 +1,14 @@
 from argparse import ArgumentParser
-import pathlib 
+import pathlib
+
+from mobscript import Instance 
 
 from .graph_analyzer import run_graph_analysis, save_generated_data
 from .simulation import Simulation
-from .program_state import ProgramState
 from .display_controller import DisplayController
 
 thisdir = pathlib.Path(__file__).resolve().parent
+
 
 def get_parser() -> ArgumentParser:
     parser = ArgumentParser()
@@ -24,18 +26,13 @@ def main():
 
     workspace = pathlib.Path(args.workspace).resolve(strict=True)
 
-    program_state = ProgramState(
-        thisdir.joinpath("input_data_defaults", "unit_types.json"),
-        thisdir.joinpath("input_data_defaults", "map.json"),
-        thisdir.joinpath("input_data_defaults", "global_attributes.json") 
-    )
-
-    program_state.parse_instruction_file(workspace.joinpath("instructions.txt"))
+    instance = Instance()
+    instance.load_script(workspace.joinpath("instructions.py"))
     
-    global_attributes = program_state.global_attributes
-    units_controller = program_state.units_controller
-    map_controller = program_state.map_controller
-    delayed_instructions = program_state.delayed_instructions
+    global_attributes = instance.global_attributes
+    units_controller = instance.units_controller
+    map_controller = instance.map_controller
+    delayed_instructions = instance.delayed_instructions
 
     units_controller.initialize_units()
     delayed_instructions.initialize()
