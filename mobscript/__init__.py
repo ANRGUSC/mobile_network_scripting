@@ -43,7 +43,7 @@ class Instance:
             spec.loader.exec_module(importlib.util.module_from_spec(spec)) 
 
 def create_units(unit_name: str, 
-                 unit_type: int, 
+                 unit_type: str, 
                  unit_count: int,
                  starting_position=(0, 0), 
                  waypoints=[], 

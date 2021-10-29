@@ -5,7 +5,7 @@ class Unit:
     def __init__(self, 
                  key: str, 
                  name: str, 
-                 unit_type: int, 
+                 unit_type: str, 
                  starting_position: Tuple[Union[int, float], Union[int, float]] = (0, 0), 
                  waypoints: List[Tuple[Union[int, float], Union[int, float]]] = [], 
                  has_standard_radio: bool = False,
