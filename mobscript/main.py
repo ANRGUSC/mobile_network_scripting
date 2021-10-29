@@ -8,7 +8,7 @@ from .display_controller import DisplayController
 
 thisdir = pathlib.Path(__file__).resolve().parent
 
-def main():
+def get_parser() -> ArgumentParser:
     parser = ArgumentParser()
     parser.add_argument(
         "-w", "--workspace",
@@ -16,6 +16,10 @@ def main():
         metavar="WORKSPACE",
         help="folder that includes instructions and outputs",
     )
+    return parser 
+
+def main():
+    parser = get_parser()
     args = parser.parse_args()
 
     program_state = ProgramState(
