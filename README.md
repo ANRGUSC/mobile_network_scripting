@@ -39,4 +39,3 @@ To change this behavior, simply specify a location:
 ```bash
 mobscript ./mobile_network_scripting/examples/pathfinding -o ./outputs
 ```
-
