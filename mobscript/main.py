@@ -1,20 +1,28 @@
 from argparse import ArgumentParser
-import pathlib 
+import pathlib
+import os 
+
+from mobscript import Instance 
 
 from .graph_analyzer import run_graph_analysis, save_generated_data
 from .simulation import Simulation
-from .program_state import ProgramState
 from .display_controller import DisplayController
 
 thisdir = pathlib.Path(__file__).resolve().parent
 
+
 def get_parser() -> ArgumentParser:
     parser = ArgumentParser()
     parser.add_argument(
-        "-w", "--workspace",
-        required=True,
-        metavar="WORKSPACE",
-        help="folder that includes instructions and outputs",
+        "path",
+        metavar="PATH",
+        help="path to instructions file",
+    )
+    parser.add_argument(
+        "-o", "--out",
+        metavar="PATH",
+        default=pathlib.Path(os.getcwd()).joinpath("generated_data"),
+        help="path to write outputs to (should either not exist or be a directory)"
     )
     return parser 
 
@@ -22,20 +30,16 @@ def main():
     parser = get_parser()
     args = parser.parse_args()
 
-    workspace = pathlib.Path(args.workspace).resolve(strict=True)
+    path = pathlib.Path(args.path).resolve(strict=True)
+    outpath = pathlib.Path(args.out).resolve()
+    assert(not outpath.is_file())
 
-    program_state = ProgramState(
-        thisdir.joinpath("input_data_defaults", "unit_types.json"),
-        thisdir.joinpath("input_data_defaults", "map.json"),
-        thisdir.joinpath("input_data_defaults", "global_attributes.json") 
-    )
-
-    program_state.parse_instruction_file(workspace.joinpath("instructions.txt"))
+    Instance.load_script(path)
     
-    global_attributes = program_state.global_attributes
-    units_controller = program_state.units_controller
-    map_controller = program_state.map_controller
-    delayed_instructions = program_state.delayed_instructions
+    global_attributes = Instance.global_attributes
+    units_controller = Instance.units_controller
+    map_controller = Instance.map_controller
+    delayed_instructions = Instance.delayed_instructions
 
     units_controller.initialize_units()
     delayed_instructions.initialize()
@@ -57,14 +61,15 @@ def main():
         delayed_instructions
     )
 
+    outpath.mkdir(exist_ok=True, parents=True)
     units_controller.save_generated_data(
-        workspace.joinpath("generated_data", "units.json")
+        outpath.joinpath("units.json")
     )
     simulation.save_generated_data(
-        workspace.joinpath("generated_data", "simulation.json")
+        outpath.joinpath("simulation.json")
     )
     save_generated_data(
-        workspace.joinpath("generated_data", "networks.json"),
+        outpath.joinpath("networks.json"),
         networks_data
     )
 
