@@ -1,5 +1,6 @@
+image: gitpod/workspace-full-vnc
 tasks:
-  - init: pip install -r requirements.txt
+  - init: python3 -m pip install --upgrade pip && pip install -e .
 vscode:
   extensions:
     - ms-python.python
