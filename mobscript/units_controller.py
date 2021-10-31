@@ -12,7 +12,7 @@ class UnitsController:
     units_created_count = 0
     groups_created_count = 0
     units_data: Dict[str, Unit] = {}
-    unit_types_data: Dict[int, Dict[str, Any]] = {}
+    unit_types_data: Dict[str, Dict[str, Any]] = {}
     groups: Dict[str, Group] = {}
 
     def __init__(self, unit_types_file: pathlib.Path) -> None:
@@ -65,7 +65,7 @@ class UnitsController:
 
     def create_unit(self, 
                     name: str, 
-                    unit_type: int, 
+                    unit_type: str, 
                     count=1, 
                     starting_position=(0, 0), 
                     waypoints=[], 

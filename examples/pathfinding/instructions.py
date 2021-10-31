@@ -1,4 +1,7 @@
-load_map("examples/pathfinding/map.json")
+from mobscript import *
+
+
+load_map("map.json")
 set_attribute("time_duration", 30)
 set_attribute("time_step", 1)
 

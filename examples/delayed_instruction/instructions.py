@@ -1,4 +1,6 @@
-load_map("input_data_defaults/map.json")
+from mobscript import *
+
+load_map("map.json")
 
 set_attribute("time_duration", 10)
 set_attribute("time_step", 1)
