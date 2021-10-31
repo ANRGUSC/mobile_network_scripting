@@ -37,5 +37,5 @@ you ran the ```mobscript``` command from.
 To change this behavior, simply specify a location:
 
 ```bash
-mobscript ./mobile_network_scripting/examples/pathfinding -o ./outputs
+mobscript ./mobile_network_scripting/examples/pathfinding/instructions.py -o ./outputs
 ```
