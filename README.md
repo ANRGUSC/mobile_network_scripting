@@ -26,10 +26,10 @@ When you install the package, the CLI command ```mobscript``` is included.
 See the [examples](./examples) for example instruction sets for different tasks.
 
 ```bash 
-mobscript ./mobile_network_scripting/examples/pathfinding
-mobscript ./mobile_network_scripting/examples/overview
-mobscript ./mobile_network_scripting/examples/many_waypoints_in_tick
-mobscript ./mobile_network_scripting/examples/delayed_instruction
+mobscript ./mobile_network_scripting/examples/pathfinding/instructions.py
+mobscript ./mobile_network_scripting/examples/overview/instructions.py
+mobscript ./mobile_network_scripting/examples/many_waypoints_in_tick/instructions.py
+mobscript ./mobile_network_scripting/examples/delayed_instruction/instructions.py
 ```
 
 By default, output files will save to a directory ./generated_data wherever 
