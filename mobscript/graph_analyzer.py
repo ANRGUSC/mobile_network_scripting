@@ -91,7 +91,6 @@ def run_graph_analysis(positions_history: Iterable[Dict[str, Tuple[Union[int, fl
         create_cellular_radio_edges(graph, map_controller.get_cellular_zones())
         create_standard_radio_edges(graph, global_attributes.standard_radio_radius)
 
-        # Print serializable graph data
         graph_data = json_graph.node_link_data(graph)
         networks_data.append(json.dumps(graph_data))
 

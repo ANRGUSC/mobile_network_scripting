@@ -6,7 +6,8 @@ from mobscript import Instance
 
 from .graph_analyzer import run_graph_analysis, save_generated_data
 from .simulation import Simulation
-from .display_controller import DisplayController
+
+import logging
 
 thisdir = pathlib.Path(__file__).resolve().parent
 
@@ -24,11 +25,27 @@ def get_parser() -> ArgumentParser:
         default=pathlib.Path(os.getcwd()).joinpath("generated_data"),
         help="path to write outputs to (should either not exist or be a directory)"
     )
+    parser.add_argument(
+        "--viz", "--visualize",
+        action="store_true",
+        help="If enabled, display a post-simulation visualization using Pygame."
+    )
+    parser.add_argument(
+        "--log-level", 
+        choices=logging._nameToLevel.keys(),
+        default="WARNING",
+        help="Level to print logs at. Default is WARNING"
+    )
     return parser 
 
 def main():
     parser = get_parser()
     args = parser.parse_args()
+
+    logging.basicConfig(
+        format="%(levelname)s: %(pathname)s line %(lineno)d \n%(message)s\n"
+    )
+    logging.getLogger().setLevel(args.log_level)
 
     path = pathlib.Path(args.path).resolve(strict=True)
     outpath = pathlib.Path(args.out).resolve()
@@ -73,13 +90,15 @@ def main():
         networks_data
     )
 
-    display_controller = DisplayController(
-        units_controller, 
-        map_controller, 
-        positions_history, 
-        global_attributes
-    )
-    display_controller.display()
+    if args.viz:
+        from .display_controller import DisplayController
+        display_controller = DisplayController(
+            units_controller, 
+            map_controller, 
+            positions_history, 
+            global_attributes
+        )
+        display_controller.display()
 
 
 if __name__ == "__main__":
