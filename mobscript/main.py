@@ -1,12 +1,12 @@
 from argparse import ArgumentParser
 import pathlib
 import os 
-
+from mobscript import *
 from mobscript import Instance 
-
-from .graph_analyzer import run_graph_analysis, save_generated_data
-from .simulation import Simulation
-from .display_controller import DisplayController
+from mobscript.graph_analyzer import run_graph_analysis, save_generated_data
+from mobscript.simulation import Simulation
+from mobscript.display_controller import DisplayController
+from mobscript.simulation import Simulation
 
 thisdir = pathlib.Path(__file__).resolve().parent
 
@@ -47,7 +47,7 @@ def main():
     simulation = Simulation(
         units_controller, 
         map_controller, 
-        delayed_instructions
+        delayed_instructions,
     )
     positions_history = simulation.run_simulation(
         global_attributes.time_step, 
@@ -58,8 +58,8 @@ def main():
         units_controller, 
         map_controller, 
         global_attributes, 
-        delayed_instructions
-    )
+        delayed_instructions,
+    )  
 
     outpath.mkdir(exist_ok=True, parents=True)
     units_controller.save_generated_data(
@@ -73,11 +73,15 @@ def main():
         networks_data
     )
 
+    last_positions = {}
+    for unit, position in positions_history[-1].items():
+        last_positions[unit] = position
+
     display_controller = DisplayController(
         units_controller, 
         map_controller, 
         positions_history, 
-        global_attributes
+        global_attributes,    
     )
     display_controller.display()
 

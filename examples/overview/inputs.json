@@ -1,0 +1,13 @@
+{
+    "P_t": 2.14,
+    "n": 2,
+    "K": 0.0004,
+    "d_0": 1,
+    "sigma": 0.8,
+    "snr_threshold" : 0.5,
+    "Bandwidth": 4000000,
+    "packet_size": 800,
+    "error_threshold": 100,
+    "source": "unit_3",
+    "destination": "unit_4"
+}

@@ -93,8 +93,8 @@ class MapController:
                              graph: nx.Graph, 
                              waypoint_keys: List[int]) -> List[Tuple[Union[int, float], Union[int, float]]]:
         waypoints = []
-        print(waypoint_keys)
-        print(len(waypoint_keys) - 1)
+        print("waypoint keys: ",waypoint_keys)
+        print("len of waypoint keys: ",len(waypoint_keys) - 1)
         for waypoint_index in range(0, len(waypoint_keys) - 1):
             curr_node_key = waypoint_keys[waypoint_index]
             next_node_key = waypoint_keys[waypoint_index + 1]
@@ -120,7 +120,7 @@ class MapController:
         subgraph = self.create_map_subgraph(allowable_terrain)
         waypoint_keys = self.add_points_as_nodes(subgraph, waypoints)
         new_waypoints = self.find_path_from_nodes(subgraph, waypoint_keys)
-        print(new_waypoints)
+        print("new waypoints: ", new_waypoints)
         return new_waypoints
 
     def get_scale(self) -> int:

@@ -4,6 +4,7 @@ import importlib.util
 import math
 import contextlib
 import os
+import json
 
 from shapely.geometry.polygon import Polygon
 from mobscript.data_structures.global_attributes import GlobalAttributes
@@ -13,6 +14,8 @@ from mobscript.delayed_instructions import DelayedInstructions
 from mobscript.map_controller import MapController
 from mobscript.units_controller import UnitsController
 from mobscript.util.util import set_equipment
+from mobscript.log_normal_fading import ShannonCapacity
+from mobscript.log_normal_fading import CalculateMetrics
 
 thisdir = pathlib.Path(__file__).resolve().parent
 
@@ -31,6 +34,8 @@ class Instance:
     global_attributes = GlobalAttributes(thisdir.joinpath("input_data_defaults", "global_attributes.json") )
     delayed_instructions = DelayedInstructions()
     script_count = 0
+    shannon_cap = ShannonCapacity()
+    error_prob = CalculateMetrics()
 
     @staticmethod
     def load_script(path: pathlib.Path) -> None:
@@ -45,9 +50,9 @@ class Instance:
 def create_units(unit_name: str, 
                  unit_type: str, 
                  unit_count: int,
+                 has_standard_radio: bool,
                  starting_position=(0, 0), 
                  waypoints=[], 
-                 has_standard_radio=False,
                  has_cellular_radio=False, 
                  has_satellite_link=False) -> Dict[str, Unit]:
     return Instance.units_controller.create_unit(
@@ -56,7 +61,7 @@ def create_units(unit_name: str,
         unit_count,
         starting_position=(0, 0), 
         waypoints=[], 
-        has_standard_radio=False,
+        has_standard_radio= has_standard_radio,
         has_cellular_radio=False, 
         has_satellite_link=False
     )
@@ -106,3 +111,28 @@ def change_equipment_at_time(units_list: Iterable[Unit],
         change_time, turn_on, equipment_name=="standard_radio", 
         equipment_name=="cellular_radio", equipment_name=="satellite_link"
     )
+
+
+def shannon_calculation(links, P_t, K, n, d, d_0, sigma, bandwidth):     
+    return Instance.shannon_cap.capacity_calculation(P_t, K, n, d, d_0, sigma, bandwidth)
+
+
+def read_json_file(file_name):
+    with open(file_name, 'r') as f:
+        data = json.load(f)
+        # Extract arguments
+        P_t = data['P_t']
+        K = data['K']
+        n = data['n']
+        d = data['d']
+        d_0 = data['d_0']
+        sigma = data['sigma']
+        snr_threshold = data['snr_threshold']
+        bandwidth = data['Bandwidth']
+        packet_size = data['packet_size']
+        error_threshold = data['error_threshold']
+        
+    return P_t, K, n, d_0, sigma, snr_threshold, bandwidth, packet_size, error_threshold
+
+def calculate_dist_between_points(point_1: Tuple[Union[int, float], Union[int, float]],point_2: Tuple[Union[int, float], Union[int, float]]) -> float:
+        return math.sqrt((point_1[0] - point_2[0])**2 + (point_1[1] - point_2[1])**2)
