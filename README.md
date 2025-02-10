@@ -5,6 +5,7 @@ prototyping and testing algorithms for mobile and dynamically networked
 multi-agent systems operating in physical environments. 
 
 [![Open In Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/ANRGUSC/mobile_network_scripting.git)
+[![Open in Codeanywhere](https://codeanywhere.com/img/open-in-codeanywhere-btn.svg)](https://app.codeanywhere.com/#https://github.com/ANRGUSC/mobile_network_scripting.git)
 
 ## Installation
 To get started, you can just click the "Open in Gitpod" button above.
